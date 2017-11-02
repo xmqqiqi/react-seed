@@ -1,60 +1,76 @@
 import React from 'react'
-import Mock from 'mockjs';
-import Topbar from '../components/Topbar'
-import { Title } from '../components/Title'
-import { Card,Row,Col } from 'antd'
-import { lineData } from '../data/data.js';
-import { LineReact } from '../components/charts/LineReact'
-
+import { browserHistory } from 'react-router';
 import '../less/home.less'
 
-let debug = 1;
-if (debug) {
-    Mock.mock(/getProfile/,{
-        "idx|4":[{
-            "key|1":['紫外线指数','穿衣指数','感冒指数','洗车指数'],
-            "value|1-7":"★"
-        }]        
-    })    
-}
-
+const tabsText=[{
+    key:'home',
+    text:'首页'
+},{
+    key:'classify',
+    text:'分类'
+},{
+    key:'cart',
+    text:'购物车'
+},{
+    key:'person',
+    text:'我的'
+}];          
 export default class Home extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            idx: []            
-        }       
+            // idx: []
+              
+        }  
     }
 
     componentDidMount() {
-        $.ajax({
-            url:'getProfile'
+        // $.ajax({
+        //     url:'getProfile'
+        // })
+        // .done(function(res) {
+        //     let data = JSON.parse(res);
+        //     // 需要绑定this
+        //     this.setState({idx:data.idx})
+        // }.bind(this))
+    }
+
+    changePage(type){
+        if(type==='home'){
+            return
+        }
+        if(type==='classify'){
+            browserHistory.push('/classify')
+        }
+        if(type==='cart'){
+            browserHistory.push('/cart')
+        }
+        if(type==='person'){
+            browserHistory.push('/person')
+        }
+    }
+
+    //底部tabs
+    tabs(tabsText){
+        const setData=[];
+        tabsText.map((item,i)=>{
+            setData.push(
+                <li className="tabs-list" key={item.key} onClick={this.changePage.bind(this,item.key)}>{item.text}</li>
+            )
         })
-        .done(function(res) {
-            let data = JSON.parse(res);
-            // 需要绑定this
-            this.setState({idx:data.idx})
-        }.bind(this))
+        return setData
     }
     
-    render() {        
+    render() {  
+             
         return (
-            <div>
-                <Topbar />
-                { Title("首页") }
-                <Card title="今日生活指数">
-                    <Row gutter={16}>
-                        {/*Each child in an array or iterator should have a unique "key" prop*/}
-                        {this.state.idx.map((item,index) => {
-                            return  (
-                                <Col span="6" key={index}>
-                                    <Card>{item.key}： <span className="stars">{item.value}</span></Card>
-                                </Col>
-                            ) 
-                        })}                        
-                    </Row>
-                </Card>
-                <LineReact data={lineData.line} />                
+            <div className="home">
+                <div>首页</div>
+                <ul className="tabs">
+                {
+                    this.tabs(tabsText)  
+                }   
+                </ul>       
             </div>
         )
     }       
