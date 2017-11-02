@@ -1,6 +1,6 @@
 {
   "name": "reactseed",
-  "version": "3.0.0",
+  "version": "1.0.0",
   "description": "a seed for a project using react antd and webpack",
   "main": "app/src/main.jsx",
   "scripts": {
@@ -42,12 +42,5 @@
     "url-loader": "0.5.7",
     "webpack": "2.4.1",
     "webpack-dev-server": "1.16.2"
-  },
-  "keywords": [
-    "es6",
-    "react",
-    "webpack"
-  ],
-  "author": "Bai Yanyun",
-  "license": "MIT"
+  }
 }
